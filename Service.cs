@@ -1,10 +1,10 @@
-namespace Worker
+namespace SteamGuard.Worker
 {
-    public class Worker : BackgroundService
+    public class Service : BackgroundService
     {
-        private readonly ILogger<Worker> _logger;
+        private readonly ILogger<Service> _logger;
 
-        public Worker(ILogger<Worker> logger)
+        public Service(ILogger<Service> logger)
         {
             _logger = logger;
         }

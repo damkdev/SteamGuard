@@ -1,9 +1,7 @@
-using Worker;
-
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
-    {
-        services.AddHostedService<Worker>();
+    {        
+        services.AddHostedService<SteamGuard.Worker.Service>();
     })
     .Build();
 
