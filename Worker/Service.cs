@@ -28,14 +28,10 @@ namespace SteamGuard.Worker
                     {
                         if (Process.GetProcessesByName(game.Process).Any())
                         {
-                            _logger.LogInformation($"{game.Process} is running at {DateTime.Now}. Skipping backup");
-                            continue;
-                        }
-                        else
-                        {
                             _logger.LogInformation($"Backing up {game.Process} at {DateTime.Now}");
                             FileUtility.CopyFiles(game.SourceDirectory, steamBackupConfig.TargetDirectory);
                         }
+                        else continue;
                     }
                 }
                 catch (Exception ex)
