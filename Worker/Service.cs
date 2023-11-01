@@ -1,3 +1,7 @@
+using SteamGuard.Worker.Configuration;
+using SteamGuard.Worker.Util;
+using System.Diagnostics;
+
 namespace SteamGuard.Worker
 {
     public class Service : BackgroundService
@@ -12,10 +16,33 @@ namespace SteamGuard.Worker
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-        {            
+        {
+            SteamBackupConfiguration steamBackupConfig = new();
+            _configuation.GetSection("SteamBackup").Bind(steamBackupConfig);
             while (!stoppingToken.IsCancellationRequested)
-            {                
-                _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+            {
+                _logger.LogInformation($"Worker running at: {DateTime.Now}");
+                try
+                {
+                    foreach (var game in steamBackupConfig.SteamGames)
+                    {
+                        if (Process.GetProcessesByName(game.Process).Any())
+                        {
+                            _logger.LogInformation($"{game.Process} is running at {DateTime.Now}. Skipping backup");
+                            continue;
+                        }
+                        else
+                        {
+                            _logger.LogInformation($"Backing up {game.Process} at {DateTime.Now}");
+                            FileUtility.CopyFiles(game.SourceDirectory, steamBackupConfig.TargetDirectory);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex.Message, ex);
+                }
+
                 await Task.Delay(TimeSpan.FromMinutes(_configuation.GetValue<int>("IntervalMinutes")), stoppingToken);
             }
         }

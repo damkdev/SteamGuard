@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>dotnet-Worker-d6b6c3ca-98d0-49fa-8884-f2fd69f07105</UserSecretsId>
     <AssemblyName>SteamGuard.$(MSBuildProjectName)</AssemblyName>
