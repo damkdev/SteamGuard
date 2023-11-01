@@ -2,6 +2,7 @@ using NLog;
 using NLog.Web;
 
 IHost host = Host.CreateDefaultBuilder(args)
+    .UseWindowsService()
     .ConfigureServices(services =>
     {
         services.AddHostedService<SteamGuard.Worker.Service>();
