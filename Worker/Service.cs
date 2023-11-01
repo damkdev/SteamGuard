@@ -28,8 +28,8 @@ namespace SteamGuard.Worker
                     {
                         if (Process.GetProcessesByName(game.Process).Any())
                         {
-                            _logger.LogInformation($"Backing up {game.Process} at {DateTime.Now}");
-                            FileUtility.CopyFiles(game.SourceDirectory, steamBackupConfig.TargetDirectory);
+                            _logger.LogInformation($"Backing up {game.Name} at {DateTime.Now}");
+                            FileUtility.CopyFiles(game.SourceDirectory, Path.Combine(steamBackupConfig.TargetDirectory, game.Name));
                         }
                         else continue;
                     }
